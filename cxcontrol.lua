@@ -27,7 +27,7 @@ getgenv().Alts = {
 
 -----------
 
-local cxlib = loadstring(game:HttpGet("github link hier von cxlib"))
+local cxlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/cicerilisu/cA6rvMoKjjt1433txjPz/main/cxlib.lua"))
 local isHost = false
 
 local LoadedPackages = {}
@@ -37,6 +37,9 @@ local LoadedFunctions = {}
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
+
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/cicerilisu/cA6rvMoKjjt1433txjPz/main/extras/AnticheatDisabler.lua"))
 
 if game:GetService("Players").LocalPlayer.UserId == getgenv().Settings.host then
     isHost = true
