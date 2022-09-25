@@ -1,4 +1,3 @@
-local DataStoreService = game:GetService("DataStoreService")
 getgenv().Settings = {
     host = 12345,
     fps = 10,
