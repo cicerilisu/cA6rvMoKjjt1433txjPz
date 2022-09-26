@@ -1,3 +1,5 @@
+print("cxlib loaded")
+
 local cxlib = {}
 
 function commandArguments(...)
