@@ -20,14 +20,13 @@ local animationtable = {
 }
 
 function commandArguments(...)
-    local one = {}
-    for k, v in pairs(...) do
-         if k ~= 1 then
-             one[k] = v
-         end
+    local k = {}
+    for i,v in pairs(...) do
+        if i ~= 1 then
+            k[i] = v
+        end
     end
-    
-    return one
+    return k
  end
 
 function cxlib:sendMessageRequest(message) 
