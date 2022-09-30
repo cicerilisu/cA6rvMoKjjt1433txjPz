@@ -23,9 +23,14 @@ return function ()
     repeat task.wait()
     until game:GetService("Players").LocalPlayer.Character:FindFirstChild('LeftFoot') ~= nil
 
-    game:GetService("Players").LocalPlayer.Character:MoveTo(latest_position.Position)
+    repeat 
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
+        game:GetService("Players").LocalPlayer.Character:MoveTo(latest_position.Position)
+        task.wait()
+    until (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(temp_x, temp_y, temp_z)).Magnitude <= 3
 
-    task.wait(.5)
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    
 
     cxlib:disableAnimations()
     cxlib:disableCollision()
