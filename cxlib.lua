@@ -40,6 +40,29 @@ function cxlib:disableAnimations()
     end
 end
 
+function cxlib:disableCollision()
+    for k, v in pairs(game:GetService("Players"):GetPlayers()) do
+        if v.Name ~= game:GetService("Players").LocalPlayer.Name  then
+            if isAAlt(v.UserId) == true then
+                if v.Character then
+                    if v.Character:FindFirstChild("Humanoid") then
+                        v.Character.Humanoid:Destroy()
+
+                        for k, v in pairs(v.Character:GetChildren()) do
+                            if v:IsA("BasePart") then
+                                v.CanCollide = false
+                                if v.Name ~= ("HumanoidRootPart" or "LeftFoot") then
+                                    v.Name = "nil"
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
 
 
 
