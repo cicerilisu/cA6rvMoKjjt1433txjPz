@@ -20,6 +20,11 @@ local animationtable = {
 }
 
 function commandArguments(...)
+
+    if ... == nil then
+        return x["NOARGS992"]
+    end
+
     local k = {}
     for i,v in pairs(...) do
         if i ~= 1 then
