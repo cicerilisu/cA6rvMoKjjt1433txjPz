@@ -29,6 +29,18 @@ function commandArguments(...)
     return k
  end
 
+function cxlib:isAlt(userId)
+    i = 1
+    for k, v in pairs(getgenv().Alts) do
+        if userId == getgenv().Alts["Alt" .. i] then
+            return true
+        else
+            i += 1
+        end
+    end
+    return false
+end
+
 function cxlib:sendMessageRequest(message) 
     game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
         .SayMessageRequest:FireServer(message, "All")
@@ -43,7 +55,7 @@ end
 function cxlib:disableCollision()
     for k, v in pairs(game:GetService("Players"):GetPlayers()) do
         if v.Name ~= game:GetService("Players").LocalPlayer.Name  then
-            if isAAlt(v.UserId) == true then
+            if cxlib:isAlt(v.UserId) then
                 if v.Character then
                     if v.Character:FindFirstChild("Humanoid") then
                         v.Character.Humanoid:Destroy()
