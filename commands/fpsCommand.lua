@@ -13,6 +13,6 @@ return function (...)
         end
     elseif not crashing then
         setfpscap(tonumber(args[2]))
-        sendMessage("Fps set to " .. tostring(args[2]))
+        cxlib:sendMessageRequest("Fps set to " .. tostring(args[2]))
     end
 end
