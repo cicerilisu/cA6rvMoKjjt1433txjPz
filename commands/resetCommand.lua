@@ -28,4 +28,5 @@ return function ()
     task.wait(.5)
 
     cxlib:disableAnimations()
+    cxlib:disableCollision()
 end
