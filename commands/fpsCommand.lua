@@ -1,6 +1,13 @@
 return function (...)
     args = commandArguments(...)
 
+    if args[1] == "NOARGS992" then
+        print("[cxcontrol] Failed to set FPS value (FPS value missing)")
+        if game:GetService("Players").LocalPlayer.UserId == getgenv().Alts.Alt1 then
+            cxlib:sendMessageRequest("Please provide a FPS value!") 
+        end
+    end
+
     if args[2] == nil then        
         print("[cxcontrol] Failed to set FPS value (FPS value missing)")
         if game:GetService("Players").LocalPlayer.UserId == getgenv().Alts.Alt1 then
