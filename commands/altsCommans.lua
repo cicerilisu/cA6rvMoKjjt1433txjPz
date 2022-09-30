@@ -1,4 +1,5 @@
 return function(...)
+    print("Executed alts command")
     args = commandArguments(...)
 
     if args[2] == nil or args == nil or ... == nil then
@@ -9,7 +10,7 @@ return function(...)
 
     
     if args[2] == "spot" then
-
+        print("Executed alts command with option 'spot'")
         game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
         repeat task.wait() until game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored == false
 
