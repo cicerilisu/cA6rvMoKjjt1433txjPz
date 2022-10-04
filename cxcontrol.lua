@@ -26,8 +26,10 @@ getgenv().Alts = {
 
 -----------
 
-local cxlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/cicerilisu/cA6rvMoKjjt1433txjPz/main/cxlib.lua"))
+cxlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/cicerilisu/cA6rvMoKjjt1433txjPz/main/cxlib.lua"))()
+
 local isHost = false
+local isAlt = false
 
 local LoadedPackages = {}
 local LoadedFunctions = {}
@@ -36,58 +38,91 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+	game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+	task.wait(1)
+	game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/cicerilisu/cA6rvMoKjjt1433txjPz/main/extras/AnticheatDisabler.lua"))
+loadstring(game:HttpGet("https://raw.githubusercontent.com/cicerilisu/cA6rvMoKjjt1433txjPz/main/extras/AnticheatDisabler.lua"))()
 
 if game:GetService("Players").LocalPlayer.UserId == getgenv().Settings.host then
     isHost = true
     cxlib:sendMessageRequest("This is host.")
 else
-    for i = 1, #getgenv().Alts, 1 do
-        if game:GetService("Players"):GetPlayerByUserId(getgenv().Alts["Alt" .. i]) ~= nil then
-            if game:GetService("Players").LocalPlayer.UserId == getgenv().Alts["Alt" .. i] then
-                
-                print("[cxcontrol] This is an alt.")
-                print("[cxcontrol] ^^ Alt" .. i .. "^^")
-                
-                cxlib:sendMessageRequest("cx v1.0 BETA")
 
-            end
+    i = 1
+    for k, v in pairs(getgenv().Alts) do
+        if game:GetService("Players").LocalPlayer.UserId == getgenv().Alts["Alt" .. i] then
+        else
+            i += 1
         end
     end
-    print("[cxcontrol] user is not grouped.")
-    return
+
+    if cxlib:isAlt(game:GetService("Players").LocalPlayer.UserId) then
+        print("[cxcontrol] This is an alt.")
+        print("[cxcontrol] ^^ Alt" .. i .. "^^")
+
+        isAlt = true
+
+        cxlib:sendMessageRequest("cx v1.0 BETA")
+    end
+
+
+
+
+
+    if not isAlt then
+        print("[cxcontrol] user is not grouped.")
+    end
+
 end
 
 -- Check if package is already loaded // Load package
 function LoadPackage(name)
-    name = name:lower()
-    if LoadedPackages[tostring(name:lower())] ~= nil then
+   
+    commandName = name:lower():gsub("/", ""):split(" ")[1]
+    
+    if LoadedPackages[tostring(commandName)] ~= nil then
         return "package already initialized"
     end
 
-    LoadedPackages[tostring(name)] = true
 
     request = HttpPost or request or http_request or syn.request
 
     Response = request({
-        Url = "https://raw.githubusercontent.com/accountnameidk/reponameidk/commands/" .. name .. "Command.lua"
-    }) 
+        Url = "https://raw.githubusercontent.com/cicerilisu/cA6rvMoKjjt1433txjPz/main/commands/" .. commandName .. "Command.lua"
+    })
 
-    if Response.StatusCode ~= 200 then
-        return "something went wrong"
+    if Response.Body == "404: Not Found" then
+        print("Failed to load command " .. commandName .. " (command not found)")
+        return "command not found"
     end
 
-    LoadedFunctions[tostring(name)] = loadstring(Response.Body)
+    LoadedPackages[tostring(commandName)] = true
+
+    LoadedFunctions[tostring(commandName)] = loadstring(Response.Body)()
 end
 
 -- Handle received messages
 function handleCommand(rawMessage)
     if isHost then return end
+    print("Received message handle request: " .. rawMessage)
     if tostring(rawMessage:lower()):find(getgenv().Settings.prefix:lower()) and not tostring(rawMessage:lower()):find(" ") then
         message = rawMessage:lower():gsub(getgenv().Settings.prefix, "")
-        
-        if LoadedPackages(message) ~= "package already initialized" then
+
+        if LoadedPackages[tostring(message:lower())] ~= nil then
+            LoadedFunctions[message]()
+        else
+            LoadPackage(message)
+            for k, v in pairs(LoadedPackages) do
+                print(k, "  ", v)
+            end
+            print("---")
+            for k, v in pairs(LoadedFunctions) do
+                print(k, "  ", v)
+            end
+
             LoadedFunctions[message]()
         end
     else
@@ -95,18 +130,30 @@ function handleCommand(rawMessage)
 
         if args[1]:find(getgenv().Settings.prefix) then
             message = rawMessage:lower():gsub(getgenv().Settings.prefix, "")
-            args = rawMessage:split(" "):gsub(getgenv().Settings.prefix, "")
+            args = message:split(" ")
 
-            if LoadedPackages(message) ~= "package already initialized" then
+            if LoadedPackages[tostring(message:lower())] ~= nil then
+                LoadedFunctions[args[1]](args)
+            else
+                LoadPackage(message)
+                for k, v in pairs(LoadedPackages) do
+                    print(k, "  ", v)
+                end
+                print("---")
+                for k, v in pairs(LoadedFunctions) do
+                    print(k, "  ", v)
+                end
+                
                 LoadedFunctions[args[1]](args)
             end
         end
     end
 end
 
--- Receive messages 
-game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnMessageDoneFiltering:Connect(function(inputData)
-    if game:GetService("Players"):FindFirstChild(inputData.FromSpeaker).UserId == getgenv().Settings.host then
-        handleCommand(data.Message)
+-- Receive messages
+
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(inputData)
+    if game:GetService("Players"):FindFirstChild(inputData.FromSpeaker).UserId == getgenv().Settings.host and not isHost then
+        handleCommand(inputData.Message)
     end
 end)
