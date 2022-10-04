@@ -11,11 +11,14 @@ return function(...)
     
     if args[2] == "spot" then
         print("Executed alts command with option 'spot'")
-        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
-        repeat task.wait() until game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored == false
+        repeat 
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
+            task.wait()
+        until game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored == false
 
 
-        temp_x = game:GetService("Players"):GetPlayerByUserId(getgenv().Settings.host).Character.HumanoidRootPart.Position.X + 0
+
+        temp_x = game:GetService("Players"):GetPlayerByUserId(getgenv().Settings.host).Character.HumanoidRootPart.Position.X
         temp_y = game:GetService("Players"):GetPlayerByUserId(getgenv().Settings.host).Character.HumanoidRootPart.Position.Y
         temp_z = game:GetService("Players"):GetPlayerByUserId(getgenv().Settings.host).Character.HumanoidRootPart.Position.Z + 10
 
