@@ -11,13 +11,11 @@ return function(...)
     
     if args[2] == "spot" then
         print("Executed alts command with option 'spot'")
-        repeat 
+
+        if not game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored then
+            print("Not locked! unlocking...")
             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
-            print("Unlocking...")
-            task.wait()
-        until not game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored
-
-
+        end
 
         temp_x = game:GetService("Players"):GetPlayerByUserId(getgenv().Settings.host).Character.HumanoidRootPart.Position.X
         temp_y = game:GetService("Players"):GetPlayerByUserId(getgenv().Settings.host).Character.HumanoidRootPart.Position.Y
