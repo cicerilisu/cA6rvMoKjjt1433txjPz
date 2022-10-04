@@ -13,8 +13,9 @@ return function(...)
         print("Executed alts command with option 'spot'")
         repeat 
             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
+            print("Unlocking...")
             task.wait()
-        until game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored == false
+        until not game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored
 
 
 
