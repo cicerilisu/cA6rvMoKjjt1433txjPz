@@ -22,6 +22,9 @@ return function(...)
         
         game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(temp_x, temp_y, temp_z)   
         
+        
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
+        
     elseif args[2] == "line" then
             
         print("no")
