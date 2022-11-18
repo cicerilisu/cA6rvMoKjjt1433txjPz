@@ -1,28 +1,4 @@
-getgenv().Settings = {
-    host = 2725017616,
-    fps = 10,
-    prefix = "/",
-    HostLowerGFX = false,
-    AdvertMessage = "cxcontrol"
-}
 
-getgenv().Addons = {
-    {"@chcxkn", "ExampleAddon", "v1.1"}
-}
-
-getgenv().Alts = {
-    Alt1 = 3209734584,
-    Alt2 = 3209739955, -- BlushedDHC_2
-    Alt3 = 3209740598,
-	Alt4 = 3209741288, -- BlushedDHC_4
-	Alt5 = 3436385538, -- BlushedDHC_50
-	Alt6 = 3436387530, -- BlushedDHC_60
-	Alt7 = 3211517328, -- BlushedDHC_7
-	Alt8 = 3211518838, -- BlushedDHC_8
-	Alt9 = 3211520385, -- BlushedDHC_9
-	Alt10 = 3319206334, -- BlushedDHC_10
-    Alt11 = 2725017616
-}
 
 -----------
 
